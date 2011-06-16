@@ -327,20 +327,26 @@ class MtGox:
   def getPlainURL(self, url):
     url = BASE_URL + url
     f = urllib2.urlopen(url)
-    return eval(f.read())
+    data = eval(f.read())
+    f.close()
+    return data
 
   # Get data from URL using credentials
   def getURL(self, url):
     url = BASE_URL + url
     f = urllib2.urlopen(url,self.getEncodedCreds())
-    return eval(f.read())
+    data = eval(f.read())
+    f.close()
+    return data
 
   # Get data from URL with extra parameters
   def getURLWithParams(self, url, dict):
     url = BASE_URL + url
     dict.update(self.getCredsDict())
     f = urllib2.urlopen(url,self.getURLEncoded(dict))
-    return eval(f.read())
+    data = eval(f.read())
+    f.close()
+    return data
 
   # Get URL encoded credentials
   def getEncodedCreds(self):
