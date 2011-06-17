@@ -56,4 +56,3 @@ class Data:
 
   def getSell(self):
     return self.sell
-

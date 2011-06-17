@@ -1,29 +1,3 @@
-#####################################################
-#                                                   #
-#          Mt.Gox Simulator / Trader v0.2           #
-#          ------------------------------           #
-#                                                   #
-#     Simulator:  Use for testing your bot's        #
-#                 trading algorithm against         #
-#                 live Mt.Gox data without          #
-#                 actually trading.                 #
-#                                                   #
-#     Trader:     Actually use your bot's           #
-#                 trading algorithm with            #
-#                 live Mt.Gox data to trade.        #
-#                                                   #
-#          *** USE AT YOUR OWN RISK ***             #
-#       This is still under heavy development       #
-#                                                   #
-#               reddit.com/r/redbit                 #
-#               reddit.com/r/mtred                  #
-#               mtred.com                           #
-#               mtgox.com                           #
-#                                                   #
-#                     -hyppo                        #
-#                                                   #
-#####################################################
-
 from Credentials import Credentials
 import urllib2
 import urllib

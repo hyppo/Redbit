@@ -14,3 +14,4 @@ class Credentials:
 
   def getPass(self):
     return self.password
+

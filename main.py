@@ -30,6 +30,5 @@ def main():
     time.sleep(UPDATE_TIME)
 
 
-
 if __name__ == "__main__":
   main()

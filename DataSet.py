@@ -245,7 +245,6 @@ class DataSet:
   def getStdDev(self, values):
     mean = self.getMean(values)
     return math.sqrt(sum((x-mean)**2 for x in values)/len(values))
-
   
   def calcSlopes(self):
     self.calcHighSlope()
