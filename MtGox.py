@@ -28,16 +28,17 @@ from Credentials import Credentials
 import urllib2
 import urllib
 import time
-
+from DataSet import DataSet
+from Data import Data
 
 #############################################
 # Change the following variables as desired #
 #############################################
 
-USERNAME = "CHANGE_ME"   # Mt.Gox username
-PASSWORD = "CHANGE_ME"   # Mt.Gox password
+USERNAME = "CHANGE_ME"      # Mt.Gox username
+PASSWORD = "CHANGE_ME"      # Mt.Gox password
 UPDATE_TIME = 5             # Time between updates in seconds
-DEFAULT_SIMULATION = False   # True = simulation, False = actual trading on Mt.Gox
+DEFAULT_SIMULATION = True   # True = simulation, False = actual trading on Mt.Gox
 DEFAULT_BTC = 0             # Starting out amount of BTC (simulation only)
 DEFAULT_USD = 0             # Starting out amount of USD (simulation only)
 DEFAULT_PRINT = True        # True = output stuff to screen, False = don't output stuff
@@ -207,6 +208,13 @@ class MtGox:
   # Checks to see if there are enough BTC funds to proceed with the sell
   def canSell(self, btc):
     return self.getBTC() >= btc
+
+  def updateDataSet(self, d):
+    self.update()
+    d.addData(self.getNewData())
+
+  def getNewData(self):
+    return Data(self.getUSD(), self.getBTC(), self.getHigh(), self.getLow(), self.getLast(), self.getVol(), self.getBuy(), self.getSell())
 
   # Update data values from Mt.Gox (it's important to do this often to keep values current)
   def update(self):
