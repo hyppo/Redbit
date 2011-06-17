@@ -24,6 +24,9 @@ class DataSet:
     self.setSellMean(mean)
     self.setVolMean(mean)
     self.setLastMean(mean)
+    self.setTotalAskPriceMean(mean)
+    self.setTotalAskVolumeMean(mean)
+    self.setAvgAskPriceMean(mean)
 
   def setMaxData(self, maxData):
     self.maxData = maxData
@@ -67,6 +70,43 @@ class DataSet:
   def getLastMean(self):
     return self.lastMean
 
+  def getTotalAskPriceMean(self):
+    return self.totalAskPriceMean
+
+  def getTotalAskVolumeMean(self):
+    return self.totalAskVolumeMean
+
+  def getAvgAskPriceMean(self):
+    return self.avgAskPriceMean
+
+  def getTotalBidPriceMean(self):
+    return self.totalBidPriceMean
+
+  def getTotalBidVolumeMean(self):
+    return self.totalBidVolumeMean
+
+  def getAvgBidPriceMean(self):
+    return self.avgBidPriceMean
+
+  def setTotalAskPriceMean(self, totalAskPriceMean):
+    self.totalAskPriceMean = totalAskPriceMean
+
+  def setTotalAskVolumeMean(self, totalAskVolumeMean):
+    self.totalAskVolumeMean = totalAskVolumeMean
+
+  def setAvgAskPriceMean(self, avgAskPriceMean):
+    self.avgAskPriceMean = avgAskPriceMean
+
+  def setTotalBidPriceMean(self, totalBidPriceMean):
+    self.totalBidPriceMean = totalBidPriceMean
+
+  def setTotalBidVolumeMean(self, totalBidVolumeMean):
+    self.totalBidVolumeMean = totalBidVolumeMean
+
+  def setAvgBidPriceMean(self, avgBidPriceMean):
+    self.avgBidPriceMean = avgBidPriceMean
+
+
   def setStdDevs(self, stdDev):
     self.setHighStdDev(stdDev)
     self.setLowStdDev(stdDev)
@@ -74,6 +114,45 @@ class DataSet:
     self.setSellStdDev(stdDev)
     self.setVolStdDev(stdDev)
     self.setLastStdDev(stdDev)
+    self.setTotalAskPriceStdDev(stdDev)
+    self.setTotalAskVolumeStdDev(stdDev)
+    self.setAvgAskPriceStdDev(stdDev)
+
+  def getTotalAskPriceStdDev(self):
+    return self.totalAskPriceStdDev
+
+  def getTotalAskVolumeStdDev(self):
+    return self.totalAskVolumeStdDev
+
+  def getAvgAskPriceStdDev(self):
+    return self.avgAskPriceStdDev
+
+  def setTotalAskPriceStdDev(self, totalAskPriceStdDev):
+    self.totalAskPriceStdDev = totalAskPriceStdDev
+
+  def setTotalAskVolumeStdDev(self, totalAskVolumeStdDev):
+    self.totalAskVolumeStdDev = totalAskVolumeStdDev
+
+  def setAvgAskPriceStdDev(self, avgAskPriceStdDev):
+    self.avgAskPriceStdDev = avgAskPriceStdDev
+
+  def getTotalBidPriceStdDev(self):
+    return self.totalBidPriceStdDev
+
+  def getTotalBidVolumeStdDev(self):
+    return self.totalBidVolumeStdDev
+
+  def getAvgBidPriceStdDev(self):
+    return self.avgBidPriceStdDev
+
+  def setTotalBidPriceStdDev(self, totalBidPriceStdDev):
+    self.totalBidPriceStdDev = totalBidPriceStdDev
+
+  def setTotalBidVolumeStdDev(self, totalBidVolumeStdDev):
+    self.totalBidVolumeStdDev = totalBidVolumeStdDev
+
+  def setAvgBidPriceStdDev(self, avgBidPriceStdDev):
+    self.avgBidPriceStdDev = avgBidPriceStdDev
 
   def setHighStdDev(self, highStdDev):
     self.highStdDev = highStdDev
@@ -118,6 +197,45 @@ class DataSet:
     self.setSellSlope(slope)
     self.setVolSlope(slope)
     self.setLastSlope(slope)
+    self.setTotalAskPriceSlope(slope)
+    self.setTotalAskVolumeSlope(slope)
+    self.setAvgAskPriceSlope(slope)
+
+  def getTotalAskPriceSlope(self):
+    return self.totalAskPriceSlope
+
+  def getTotalAskVolumeSlope(self):
+    return self.totalAskVolumeSlope
+
+  def getAvgAskPriceSlope(self):
+    return self.avgAskPriceSlope
+
+  def setTotalAskPriceSlope(self, totalAskPriceSlope):
+    self.totalAskPriceSlope = totalAskPriceSlope
+
+  def setTotalAskVolumeSlope(self, totalAskVolumeSlope):
+    self.totalAskVolumeSlope = totalAskVolumeSlope
+
+  def setAvgAskPriceSlope(self, avgAskPriceSlope):
+    self.avgAskPriceSlope = avgAskPriceSlope
+
+  def getTotalBidPriceSlope(self):
+    return self.totalBidPriceSlope
+
+  def getTotalBidVolumeSlope(self):
+    return self.totalBidVolumeSlope
+
+  def getAvgBidPriceSlope(self):
+    return self.avgBidPriceSlope
+
+  def setTotalBidPriceSlope(self, totalBidPriceSlope):
+    self.totalBidPriceSlope = totalBidPriceSlope
+
+  def setTotalBidVolumeSlope(self, totalBidVolumeSlope):
+    self.totalBidVolumeSlope = totalBidVolumeSlope
+
+  def setAvgBidPriceSlope(self, avgBidPriceSlope):
+    self.avgBidPriceSlope = avgBidPriceSlope
 
   def setHighSlope(self, highSlope):
     self.highSlope = highSlope
@@ -194,6 +312,30 @@ class DataSet:
     self.calcSellMean()
     self.calcVolMean()
     self.calcLastMean()
+    self.calcTotalAskPriceMean()
+    self.calcTotalAskVolumeMean()
+    self.calcAvgAskPriceMean()
+    self.calcTotalBidPriceMean()
+    self.calcTotalBidVolumeMean()
+    self.calcAvgBidPriceMean()
+
+  def calcTotalAskPriceMean(self):
+    self.setTotalAskPriceMean(self.getMean([x.getTotalAskPrice() for x in self.getData()]))
+
+  def calcTotalAskVolumeMean(self):
+    self.setTotalAskVolumeMean(self.getMean([x.getTotalAskVolume() for x in self.getData()]))
+
+  def calcAvgAskPriceMean(self):
+    self.setAvgAskPriceMean(self.getMean([x.getAvgAskPrice() for x in self.getData()]))
+
+  def calcTotalBidPriceMean(self):
+    self.setTotalBidPriceMean(self.getMean([x.getTotalBidPrice() for x in self.getData()]))
+
+  def calcTotalBidVolumeMean(self):
+    self.setTotalBidVolumeMean(self.getMean([x.getTotalBidVolume() for x in self.getData()]))
+
+  def calcAvgBidPriceMean(self):
+    self.setAvgBidPriceMean(self.getMean([x.getAvgBidPrice() for x in self.getData()]))
 
   def calcHighMean(self):
     self.setHighMean(self.getMean([x.getHigh() for x in self.getData()]))
@@ -223,6 +365,30 @@ class DataSet:
     self.calcSellStdDev()
     self.calcVolStdDev()
     self.calcLastStdDev()
+    self.calcTotalAskPriceStdDev()
+    self.calcTotalAskVolumeStdDev()
+    self.calcAvgAskPriceStdDev()
+    self.calcTotalBidPriceStdDev()
+    self.calcTotalBidVolumeStdDev()
+    self.calcAvgBidPriceStdDev()
+
+  def calcTotalAskPriceStdDev(self):
+    self.setTotalAskPriceStdDev(self.getStdDev([x.getTotalAskPrice() for x in self.getData()]))
+
+  def calcTotalAskVolumeStdDev(self):
+    self.setTotalAskVolumeStdDev(self.getStdDev([x.getTotalAskVolume() for x in self.getData()]))
+
+  def calcAvgAskPriceStdDev(self):
+    self.setAvgAskPriceStdDev(self.getStdDev([x.getAvgAskPrice() for x in self.getData()]))
+
+  def calcTotalBidPriceStdDev(self):
+    self.setTotalBidPriceStdDev(self.getStdDev([x.getTotalBidPrice() for x in self.getData()]))
+
+  def calcTotalBidVolumeStdDev(self):
+    self.setTotalBidVolumeStdDev(self.getStdDev([x.getTotalBidVolume() for x in self.getData()]))
+
+  def calcAvgBidPriceStdDev(self):
+    self.setAvgBidPriceStdDev(self.getStdDev([x.getAvgBidPrice() for x in self.getData()]))
 
   def calcHighStdDev(self):
     self.setHighStdDev(self.getStdDev([x.getHigh() for x in self.getData()]))
@@ -253,6 +419,27 @@ class DataSet:
     self.calcSellSlope()
     self.calcVolSlope()
     self.calcLastSlope()
+    self.calcTotalBidPriceSlope()
+    self.calcTotalBidVolumeSlope()
+    self.calcAvgBidPriceSlope()
+
+  def calcTotalAskPriceSlope(self):
+    self.setTotalAskPriceSlope(self.getSlope([x.getTotalAskPrice() for x in self.getData()]))
+
+  def calcTotalAskVolumeSlope(self):
+    self.setTotalAskVolumeSlope(self.getSlope([x.getTotalAskVolume() for x in self.getData()]))
+
+  def calcAvgAskPriceSlope(self):
+    self.setAvgAskPriceSlope(self.getSlope([x.getAvgAskPrice() for x in self.getData()]))
+
+  def calcTotalBidPriceSlope(self):
+    self.setTotalBidPriceSlope(self.getSlope([x.getTotalBidPrice() for x in self.getData()]))
+
+  def calcTotalBidVolumeSlope(self):
+    self.setTotalBidVolumeSlope(self.getSlope([x.getTotalBidVolume() for x in self.getData()]))
+
+  def calcAvgBidPriceSlope(self):
+    self.setAvgBidPriceSlope(self.getSlope([x.getAvgBidPrice() for x in self.getData()]))
 
   def calcHighSlope(self):
     self.setHighSlope(self.getSlope([x.getHigh() for x in self.getData()]))
@@ -286,36 +473,72 @@ class DataSet:
       return UNDEFINED_SLOPE
     return ((n*sxy)-(sx*sy))/delta
 
-  def prnt(self, tag, v):
-    print "  | %s | %.2f | %.2f | %+.2f |" % (tag, v[0], v[1], v[2])
+  def prnt(self, tag, v, delta):
+    print self.addSpaces(self.addSpaces(self.addSpaces("  | %s | %.2f" % (tag, v[0]), v[0], delta) + (" %.2f" % (v[1])), v[1], delta) + (" %+.2f" % (v[2])), v[2], delta)
+  
+  def prntVol(self, tag, v, delta1, delta2, delta3):
+    print self.addSpaces(self.addSpaces(self.addSpaces("  | %s | %d" % (tag, v[0]), v[0], delta1) + (" %.2f" % (v[1])), v[1], delta2) + (" %+.2f" % (v[2])), v[2], delta3)
 
-  def prntVol(self, tag, v):
-    print "  | %s | %d | %.2f | %+.2f |" % (tag, v[0], v[1], v[2])
+  def prntDepth(self, tag, v, delta):
+    print self.addSpaces(self.addSpaces(self.addSpaces("  | %s | %d" % (tag, v[0]), v[0], delta) + (" %d" % (v[1])), v[1], delta) + (" %+d" % (v[2])), v[2], delta)
+
+  def addSpaces(self, base, value, delta):
+    if int(value) == 0:
+      dec = 0
+    else:
+      if value < 0:
+        dec = int(math.log(int(-1*value),10))
+      else:
+        dec = int(math.log(int(value),10))
+    for i in range(delta - dec):
+      base += " "
+    return base + "|"
 
   def printHigh(self):
-    self.prnt("High", [self.getHighMean(), self.getHighStdDev(), self.getHighSlope()])
+    self.prnt("High            ", [self.getHighMean(), self.getHighStdDev(), self.getHighSlope()], 4)
 
   def printLow(self):
-    self.prnt("Low ", [self.getLowMean(), self.getLowStdDev(), self.getLowSlope()])
+    self.prnt("Low             ", [self.getLowMean(), self.getLowStdDev(), self.getLowSlope()], 4)
 
   def printBuy(self):
-    self.prnt("Buy ", [self.getBuyMean(), self.getBuyStdDev(), self.getBuySlope()])
+    self.prnt("Buy             ", [self.getBuyMean(), self.getBuyStdDev(), self.getBuySlope()], 4)
 
   def printSell(self):
-    self.prnt("Sell", [self.getSellMean(), self.getSellStdDev(), self.getSellSlope()])
+    self.prnt("Sell            ", [self.getSellMean(), self.getSellStdDev(), self.getSellSlope()], 4)
 
   def printVol(self):
-    self.prntVol("Vol ", [self.getVolMean(), self.getVolStdDev(), self.getVolSlope()])
+    self.prntVol("Vol             ", [self.getVolMean(), self.getVolStdDev(), self.getVolSlope()], 7, 4, 4)
 
   def printLast(self):
-    self.prnt("Last", [self.getLastMean(), self.getLastStdDev(), self.getLastSlope()])
+    self.prnt("Last            ", [self.getLastMean(), self.getLastStdDev(), self.getLastSlope()], 4)
+
+  def printTotalAskPrice(self):
+    self.prntDepth("Total Ask Price ", [self.getTotalAskPriceMean(), self.getTotalAskPriceStdDev(), self.getTotalAskPriceSlope()], 7)
+
+  def printTotalAskVolume(self):
+    self.prntDepth("Total Ask Volume", [self.getTotalAskVolumeMean(), self.getTotalAskVolumeStdDev(), self.getTotalAskVolumeSlope()], 7)
+
+  def printAvgAskPrice(self):
+    self.prnt("Avg Ask Price   ", [self.getAvgAskPriceMean(), self.getAvgAskPriceStdDev(), self.getAvgAskPriceSlope()], 4)
+
+  def printTotalBidPrice(self):
+    self.prntDepth("Total Bid Price ", [self.getTotalBidPriceMean(), self.getTotalBidPriceStdDev(), self.getTotalBidPriceSlope()], 7)
+
+  def printTotalBidVolume(self):
+    self.prntDepth("Total Bid Volume", [self.getTotalBidVolumeMean(), self.getTotalBidVolumeStdDev(), self.getTotalBidVolumeSlope()], 7)
+
+  def printAvgBidPrice(self):
+    self.prnt("Avg Bid Price   ", [self.getAvgBidPriceMean(), self.getAvgBidPriceStdDev(), self.getAvgBidPriceSlope()], 4)
 
   def printBar(self):
-    print "  |-----------------------------|"
+    print "  |-------------------------------------------------|"
+
+  def printSeperator(self):
+    print "  |=================================================|"
 
   def printHeader(self):
-    self.printBar()
-    print "  |      |  Avg  | Stdv | Slope |"
+    self.printSeperator()
+    print "  |                  |   Avg   |  Stdev  |  Slope   |"
     self.printBar()
 
   def printData(self):
@@ -326,7 +549,13 @@ class DataSet:
     self.printHigh()
     self.printLow()
     self.printVol()
-    self.printBar()
+    self.printAvgAskPrice()
+    self.printTotalAskVolume()
+    self.printTotalAskPrice()
+    self.printAvgBidPrice()
+    self.printTotalBidVolume()
+    self.printTotalBidPrice()
+    self.printSeperator()
 
     #correlation coefficients
 #    a = []

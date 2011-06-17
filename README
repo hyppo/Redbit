@@ -3,8 +3,8 @@
 #  Redbit Automated Bitcoin Trader (RABiT) #
 #  --------------------------------------- #
 #                                          #
-#                 v0.3                     #
-#              06/16/2011                  #
+#                 v0.4                     #
+#              06/17/2011                  #
 #                                          #
 #          reddit.com/r/redbit             #
 #           Always bet on RED              #
@@ -16,19 +16,20 @@
       - MtGox.py
       - DataSet.py
       - Data.py
+      - Credentials.py
 
 2.  New Features
       - Mean, standard deviation, and fitted slope calculations
-        for buy, sell, last, volume, high, and low values
-      - Nice table display with values
-      - User-chosen time frame over which to calculate values
+        for market depth values
+      - Cleaned up table display with (hopefully) no more shifting columns
+      - View orders in table (just oid, type, and status)
+      - View simulation status (either simulation or live) plus username if live
+      - Table title with date and time
 
 3.  Setup
-      - Change USERNAME and PASSWORD values in MtGox.py (NECESSARY)
-      - Change BUY_THRESHOLD, SELL_THRESHOLD, and UPDATE_TIME values
-        in main.py (not necessary, but recommended)
-      - Change DEFAULT_SIMULATION value in MtGox.py (change at your
-        own risk... this is still in pre-alpha state)
+      - Edit variable values at top of main.py and MtGox.py files
+      - Notice:  Change DEFAULT_SIMULATION at your own risk!  This 
+                 program is still in pre-alpha state.
 
 4.  Run Command
       - python main.py

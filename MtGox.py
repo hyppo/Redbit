@@ -3,6 +3,8 @@ import urllib2
 import urllib
 import time
 import contextlib
+import math
+import datetime
 from DataSet import DataSet
 from Data import Data
 
@@ -12,13 +14,10 @@ from Data import Data
 
 USERNAME = "CHANGE_ME"      # Mt.Gox username
 PASSWORD = "CHANGE_ME"      # Mt.Gox password
-UPDATE_TIME = 5             # Time between updates in seconds
 DEFAULT_SIMULATION = True   # True = simulation, False = actual trading on Mt.Gox
-DEFAULT_BTC = 0             # Starting out amount of BTC (simulation only)
-DEFAULT_USD = 0             # Starting out amount of USD (simulation only)
+DEFAULT_BTC = 1             # Starting out amount of BTC (simulation only)
+DEFAULT_USD = 50            # Starting out amount of USD (simulation only)
 DEFAULT_PRINT = True        # True = output stuff to screen, False = don't output stuff
-SELL_THRESHOLD = 20.00      # If the sell goes above this, sell my bitcoins at that price
-BUY_THRESHOLD = 18.00       # If the buy goes below this, buy all bitcoins I can at this price
 
 
 #########################################
@@ -27,12 +26,12 @@ BUY_THRESHOLD = 18.00       # If the buy goes below this, buy all bitcoins I can
 
 BASE_URL = "https://mtgox.com/code/"
 TICKER_URL = "data/ticker.php"
+MARKET_DEPTH_URL = "data/getDepth.php"
 BUY_BTC_URL = "buyBTC.php"
 SELL_BTC_URL = "sellBTC.php"
 CANCEL_ORDER_URL = "cancelOrder.php"
 GET_ORDERS_URL = "getOrders.php"
 GET_FUNDS_URL = "getFunds.php"
-
 
 # Use this class to interact with Mt.Gox API
 class MtGox:
@@ -43,6 +42,17 @@ class MtGox:
     self.setPrint(self.getDefaultPrint())    
     self.setSimulation(self.getDefaultSimulation())
     self.update()
+
+
+  def printStatus(self):
+    if self.getSimulation():
+      print "                    Status:  Simulation"
+    else:
+      print "                    Status:   Live"
+      print "                    Username: %s" % self.getUser()  
+
+  def printTitle(self):
+    print "              Mt.Gox @ %s" % datetime.datetime.now().strftime("%H:%M:%S on %m/%d/%Y")
 
   # Get default simulation value
   def getDefaultSimulation(self):
@@ -122,7 +132,7 @@ class MtGox:
       else: 
         self.getURLWithParams(BUY_BTC_URL, {'amount':btc,'price':price})
     else:
-      self.prnt("Do not have enough USD to submit order")
+      self.prnt("Do not have enough USD to submit order for %.2f BTC @ %.2f USD a piece" % (btc, price))
 
   # Deduct USD from funds (simulation)
   def deductUSD(self, usd):
@@ -174,7 +184,7 @@ class MtGox:
       else:
         self.getURLWithParams(SELL_BTC_URL, {'amount':btc,'price':price})
     else:
-      self.prnt("Do not have enough BTC to submit order")
+      self.prnt("Do not have enough BTC to submit sell order for %.2f BTC @ %.2f USD a piece" % (btc, price))
 
   # Prints the selling message
   def printSellMsg(self, btc, price):
@@ -189,7 +199,9 @@ class MtGox:
     d.addData(self.getNewData())
 
   def getNewData(self):
-    return Data(self.getUSD(), self.getBTC(), self.getHigh(), self.getLow(), self.getLast(), self.getVol(), self.getBuy(), self.getSell())
+    return Data(self.getUSD(), self.getBTC(), self.getHigh(), self.getLow(), self.getLast(), self.getVol(), self.getBuy(), self.getSell(), \
+                self.getTotalAskPrice(), self.getTotalAskVolume(), self.getAvgAskPrice(), \
+                self.getTotalBidPrice(), self.getTotalBidVolume(), self.getAvgBidPrice())
 
   # Update data values from Mt.Gox (it's important to do this often to keep values current)
   def update(self):
@@ -200,21 +212,91 @@ class MtGox:
     self.setVol(tickerData['vol'])
     self.setLow(tickerData['low'])
     self.setHigh(tickerData['high'])
-    funds = self.getFunds()
-    self.setBTC(funds['btcs'])
-    self.setUSD(funds['usds'])
+    
+    if self.getSimulation() == False:
+      funds = self.getFunds()
+      self.setBTC(funds['btcs'])
+      self.setUSD(funds['usds'])
+    
+    self.setOrders(self.getOrdersData())
+    
+    marketDepth = self.getMarketDepth()
+    self.setAsks(marketDepth['asks'])
+    self.setBids(marketDepth['bids'])
+
+
+  def setTotalAskPrice(self, totalAskPrice):
+    self.totalAskPrice = totalAskPrice
+
+  def setTotalAskVolume(self, totalAskVolume):
+    self.totalAskVolume = totalAskVolume
+
+  def setAvgAskPrice(self, avgAskPrice):
+    self.avgAskPrice = avgAskPrice
+
+  def getTotalAskPrice(self):
+    return self.totalAskPrice
+
+  def getTotalAskVolume(self):
+    return self.totalAskVolume
+
+  def getAvgAskPrice(self):
+    return self.avgAskPrice
+
+  def setAsks(self, asks):
+    self.setTotalAskPrice(sum([x[0]*x[1] for x in asks]))
+    self.setTotalAskVolume(sum([x[1] for x in asks]))
+    self.setAvgAskPrice(float(self.totalAskPrice)/float(self.totalAskVolume))
+
+  def setBids(self, bids):
+    self.setTotalBidPrice(sum([x[0]*x[1] for x in bids]))
+    self.setTotalBidVolume(sum([x[1] for x in bids]))
+    self.setAvgBidPrice(float(self.totalBidPrice)/float(self.totalBidVolume))
+
+  def setTotalBidPrice(self, totalBidPrice):
+    self.totalBidPrice = totalBidPrice
+
+  def setTotalBidVolume(self, totalBidVolume):
+    self.totalBidVolume = totalBidVolume
+
+  def setAvgBidPrice(self, avgBidPrice):
+    self.avgBidPrice = avgBidPrice
+
+  def getTotalBidPrice(self):
+    return self.totalBidPrice
+
+  def getTotalBidVolume(self):
+    return self.totalBidVolume
+
+  def getAvgBidPrice(self):
+    return self.avgBidPrice
+
 
   # Get funds from Mt.Gox
   def getFunds(self):
     return self.getURL(GET_FUNDS_URL)
 
+  def printFunds(self):
+    self.printBTC()
+    self.printUSD()
+    self.printSeperator()
+
+  def addSpaces(self, base, value, delta):
+    if int(value) == 0:
+      dec = 0
+    else:
+      dec = int(math.log(int(value),10))
+    for i in range(20 - dec + delta):
+      base += " "
+    return base + "|"
+
   # Print BTC funds
   def printBTC(self):
-    self.prnt("BTC:  " + str(self.getBTC()))
+    self.prnt(self.addSpaces("  |                    BTC:  %.2f" % self.getBTC(), self.getBTC(), -1))
 
   # Print USD funds
   def printUSD(self):
-    self.prnt("USD:  " + str(self.getUSD()))
+    self.prnt(self.addSpaces("  |                    USD:  %.2f" % self.getUSD(), self.getUSD(), -1))
 
   # Print high
   def printHigh(self):
@@ -306,6 +388,9 @@ class MtGox:
   def getTickerData(self):
     return self.getPlainURL(TICKER_URL)['ticker']
 
+  def getMarketDepth(self):
+    return self.getPlainURL(MARKET_DEPTH_URL)
+
   # Get data from URL without using credentials
   def getPlainURL(self, url):
     url = BASE_URL + url
@@ -343,48 +428,67 @@ class MtGox:
   def getCredsDict(self):
     return {'name': self.getCredentials().getUser(), 'pass': self.getCredentials().getPass()}
 
+  def cancelOrder(self, oid):
+    order = self.getOrder(oid)
+    if order == None:
+      return
+    return self.getURLWithParams(CANCEL_ORDER_URL, {'oid':order['oid'],'type':order['type']})
 
-# Main loop (where your bot's algorithms are run)
-def main():
-  m = MtGox()
-  while True:
-    m.update()
-    if m.getSell() > SELL_THRESHOLD:
-      m.sellBTC(int(m.getBTC()),m.getSell()-0.01)
-    if m.getBuy() < BUY_THRESHOLD:
-      m.buyBTC(m.getUSD()%m.getBuy(), m.getBuy()+0.01)
-    print "========================="
-    m.printData()
-    m.printBTC()
-    m.printUSD()
-    exit()
-    time.sleep(UPDATE_TIME)
+  def getOrder(self, oid):
+    if self.getSimulation():
+      return None
+    for order in self.getOrders():
+      if order['oid'] == oid:
+        return order
+    return None
+
+  def getNumOrders(self):
+    return len(self.getOrders())    
+
+  def getOrders(self):
+    return self.orders
+
+  def setOrders(self, orders):
+    self.orders = orders
+
+  def getOrdersData(self):
+    if self.getSimulation():
+      return []
+    return self.getURL(GET_ORDERS_URL)['orders']
+
+  def printBar(self):
+    print "  |-------------------------------------------------|"
+
+  def printSeperator(self):
+    print "  |=================================================|"
+
+  def printNoOrders(self):
+    print "  |                 No orders placed                |"
+
+  def printOrders(self):
+    self.printOrderHeader()
+    self.printBar()
+    if self.getNumOrders() == 0:
+      self.printNoOrders()
+    else:
+      for order in self.getOrders():
+        self.printOrder(order)
+    self.printSeperator()
+
+  def printOrderHeader(self):
+    print "  |      OID       |     Type      |     Status     |"
+
+  def printOrder(self, order):
+    oid = order['oid']
+    if str(order['type']) == '1':
+      type = "sell"
+    else:
+      type = "buy "
+    if order['status'] == '1':
+      status = "active"
+    else:
+      status = " NSF  "
+    print self.addSpaces("  |     %s" % oid, oid, -10) + "     %s      |     %s     |" % (type, status)
 
 if __name__ == '__main__':
   main()
-
-
-
-######################################################################
-#  For now, orders will be simulated as being fulfilled immediately  #
-######################################################################
-
-#  def cancelOrder(oid):
-#    order = self.getOrder(oid)
-#    if order == None:
-#      return
-#    return getURLWithParams(CANCEL_ORDER_URL, {'oid':order.getOID(),'type':order.getType()})
-
-#  def getOrder(oid):
-#    for order in getOrders():
-#      if order['oid'] == oid:
-#        return order
-#    return None
-
-#  def getNumOrders():
-#    return len(getOrders())    
-
-#  def getOrders():
-#    return getURL(GET_ORDERS_URL)['orders']
-
-
