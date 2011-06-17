@@ -2,6 +2,7 @@ from Credentials import Credentials
 import urllib2
 import urllib
 import time
+import contextlib
 from DataSet import DataSet
 from Data import Data
 
@@ -310,7 +311,7 @@ class MtGox:
     url = BASE_URL + url
     f = urllib2.urlopen(url)
     data = eval(f.read())
-    f.close()
+    contextlib.closing(f)
     return data
 
   # Get data from URL using credentials
@@ -318,7 +319,7 @@ class MtGox:
     url = BASE_URL + url
     f = urllib2.urlopen(url,self.getEncodedCreds())
     data = eval(f.read())
-    f.close()
+    contextlib.closing(f)
     return data
 
   # Get data from URL with extra parameters
@@ -327,7 +328,7 @@ class MtGox:
     dict.update(self.getCredsDict())
     f = urllib2.urlopen(url,self.getURLEncoded(dict))
     data = eval(f.read())
-    f.close()
+    contextlib.closing(f)
     return data
 
   # Get URL encoded credentials
